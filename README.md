@@ -24,6 +24,7 @@ A terminal-based **Password Management Tool** that helps users evaluate password
       ```bash
       py main.py
       ```
+! Will take time when running for first time depending upon your internet speed.
 ## Future Scope
 - **Password Generator**: Plans to add functionality for generating strong, secure passwords based on user preferences.
 - **Integration with Password Managers**: Future versions may allow importing them from password managers.
