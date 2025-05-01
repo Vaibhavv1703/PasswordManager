@@ -26,4 +26,6 @@ A terminal-based **Password Management Tool** that helps users evaluate password
       ```
 ## Future Scope
 - **Password Generator**: Plans to add functionality for generating strong, secure passwords based on user preferences.
+- **Integration with Password Managers**: Future versions may allow importing them from password managers.
+- **Advanced Strength Metrics**: Plans to introduce more sophisticated metrics and validation checks to make password strength analysis more robust.
 - **Deployment**: Plans to deploy this app online for easy access.
