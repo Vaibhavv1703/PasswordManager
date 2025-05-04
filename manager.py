@@ -2,6 +2,7 @@ import os
 import json
 import getpass
 from cryptography.fernet import Fernet
+from cryptography.fernet import InvalidToken
 from hashlib import sha256
 import base64
 import main
@@ -12,24 +13,28 @@ def get_fernet(master_password):
     key = sha256(master_password.encode()).digest()
     return Fernet(base64.urlsafe_b64encode(key))
 
-def load_vault(f, master_password):
-    with open(f, 'rb') as file:
+def load_vault():
+    with open(VAULT_PATH, 'rb') as file:
         encrypted_data = file.read()
     fernet = get_fernet(master_password)
     try:
         decrypted_data = fernet.decrypt(encrypted_data)
         return json.loads(decrypted_data.decode())
-    except:
+    except InvalidToken:
+        print("Invalid master password.")
+        return {-1}
+    except Exception as e:
+        print(f"Error loading vault: {e}")
         return {-1}
 
-def save_vault(f, master_password, vault):
+def save_vault():
     fernet = get_fernet(master_password)
     data = json.dumps(vault).encode()
     encrypted_data = fernet.encrypt(data)
-    with open(f, 'wb') as file:
+    with open(VAULT_PATH, 'wb') as file:
         file.write(encrypted_data)
 
-def add_password(vault, master_password):
+def add_password():
     site = input("Website: ").strip()
     username = input("Username: ").strip()
     password = getpass.getpass("Password: ").strip()
@@ -39,9 +44,9 @@ def add_password(vault, master_password):
         vault[site] = []
     vault[site].append({"username": username, "password": password, "remark": remark})
     print("Entry added.")
-    save_vault(VAULT_PATH, master_password, vault)
+    save_vault()
 
-def view_passwords(vault):
+def view_passwords():
     if not vault:
         print("Vault is empty.")
         return
@@ -50,7 +55,7 @@ def view_passwords(vault):
         for i, acc in enumerate(accounts):
             print(f"  {i+1}. Username: {acc['username']}, Password: {acc['password']}, Remark: {acc['remark']}")
 
-def delete_password(vault, master_password):
+def delete_password():
     site = input("Website to delete from: ").strip()
     if site not in vault:
         print("[!] Site not found.")
@@ -64,13 +69,13 @@ def delete_password(vault, master_password):
             if not vault[site]:
                 del vault[site]
             print("Entry deleted.")
-            save_vault(VAULT_PATH, master_password, vault)
+            save_vault()
         else:
             print("Invalid index.")
     except ValueError:
         print("Invalid input.")
 
-def search_password(vault):
+def search_password():
     site = input("Website to search: ").strip()
     if site in vault:
         for i, acc in enumerate(vault[site]):
@@ -78,7 +83,7 @@ def search_password(vault):
     else:
         print("Site not found.")
 
-def update_password(vault, master_password):
+def update_password():
     site = input("Website to update: ").strip()
     if site not in vault:
         print("Site not found.")
@@ -93,7 +98,7 @@ def update_password(vault, master_password):
             new_remark = input("New Remark (optional): ").strip()
             vault[site][idx] = {"username": new_username, "password": new_password, "remark": new_remark}
             print("Entry updated.")
-            save_vault(VAULT_PATH, master_password, vault)
+            save_vault()
         else:
             print("Invalid index.")
     except ValueError:
@@ -110,6 +115,8 @@ def print_menu():
     print("=" * 45 + "\n")
 
 def run():
+    global vault
+    global master_password
     main.cls()
     print("\n" + "=" * 45)
     print("||{:^41}||".format("Password Manager"))
@@ -127,25 +134,25 @@ def run():
         vault = {}
     else:
         master_password = getpass.getpass("Enter master password: ")
-        vault = load_vault(VAULT_PATH, master_password)
+        vault = load_vault()
         if(vault == {-1}):
             print("Invalid master password or corrupted vault.")
             return
 
-    save_vault(VAULT_PATH, master_password, vault)
+    save_vault()
     while True:
         print_menu()
         choice = input("Enter your choice: ")
         if choice == '1':
-            add_password(vault, master_password)
+            add_password()
         elif choice == '2':
-            view_passwords(vault)
+            view_passwords()
         elif choice == '3':
-            delete_password(vault, master_password)
+            delete_password()
         elif choice == '4':
-            search_password(vault)
+            search_password()
         elif choice == '5':
-            update_password(vault, master_password)
+            update_password()
         elif choice == '0':
             print("Going back to the main menu...\n")
             break
