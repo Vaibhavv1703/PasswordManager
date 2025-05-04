@@ -3,6 +3,7 @@ import os
 import pickle
 import urllib.request
 import math
+import main
 
 PICKLE_PATH = 'rockyou.pkl'
 REMOTE_URL = 'https://www.dropbox.com/scl/fi/weorggtspmqpd0hkp0eti/rockyou.pkl?rlkey=obyodpark2be1nlwzqbscn60h&st=n5bfbze7&dl=1'
@@ -84,7 +85,7 @@ def check_password_strength(password):
     else:
         return "Weak"
 
-def run():
+def check():  
     password = input("\nEnter a password to check: ")
     strength = check_password_strength(password)
     entropy = calculate_entropy(password)
@@ -93,6 +94,19 @@ def run():
     print(f"Strength: {strength}")
     print(f"Entropy: {entropy:.2f} bits")
     print(f"Estimated cracking time: {cracking_time}\n")
-
-if __name__ == "__main__":
-    run()
+    
+def run():
+    main.cls()
+    print("\n" + "=" * 45)
+    print("||{:^41}||".format("Password Strength Checker"))
+    print("=" * 45)
+    check()
+    while True:
+        ch2 = input("Do you want to check another password? (Y for Yes, N for No): ")
+        if ch2.lower() == 'y':
+            check()
+        elif ch2.lower() == 'n':
+            print("Going back to the main menu...\n")
+            break
+        else:
+            print("Invalid choice. Please enter Y or N.\n")

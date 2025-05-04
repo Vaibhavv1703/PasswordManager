@@ -25,20 +25,7 @@ def main():
             print("Exiting the program.")
             break
         elif ch == '1':
-            cls()
-            print("\n" + "=" * 45)
-            print("||{:^41}||".format("Password Strength Checker"))
-            print("=" * 45)
             checker.run()
-            while True:
-                ch2 = input("Do you want to check another password? (Y for Yes, N for No): ")
-                if ch2.lower() == 'y':
-                    checker.run()
-                elif ch2.lower() == 'n':
-                    print("Going back to the main menu...\n")
-                    break
-                else:
-                    print("Invalid choice. Please enter Y or N.\n")
         elif ch == '2':
             cls()
             print("\n" + "=" * 45)
