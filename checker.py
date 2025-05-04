@@ -17,12 +17,6 @@ def download_pickle_file():
         print("Failed to download the file:", e)
         exit(1)
 
-if not os.path.exists(PICKLE_PATH):
-    download_pickle_file()
-
-with open(PICKLE_PATH, 'rb') as f:
-    common_passwords = pickle.load(f)
-
 def calculate_entropy(password):
     char_sets = {
         'lowercase': 26,
@@ -97,6 +91,12 @@ def check():
     
 def run():
     main.cls()
+    if not os.path.exists(PICKLE_PATH):
+        download_pickle_file()
+    with open(PICKLE_PATH, 'rb') as f:
+        global common_passwords
+        common_passwords = pickle.load(f)
+
     print("\n" + "=" * 45)
     print("||{:^41}||".format("Password Strength Checker"))
     print("=" * 45)
