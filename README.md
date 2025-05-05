@@ -1,5 +1,5 @@
 # Password Checker
-A terminal-based **Password Management Tool** that helps users evaluate password strength, estimate cracking time, and calculate entropy. Built with simplicity and cybersecurity in mind.
+A terminal-based **Password Checker Tool** that helps users evaluate password strength, estimate cracking time, and calculate entropy. Built with simplicity and cybersecurity in mind.
 
 ## Features
 - Password Strength Checker  
@@ -7,6 +7,15 @@ A terminal-based **Password Management Tool** that helps users evaluate password
 - Estimated Cracking Time  
 - Common password detection using the `rockyou.txt` dataset (pickled)  
 - Clean terminal interface with menu navigation
+
+
+# Password Manager
+A terminal-based **Password Managing Tool** that helps users save, view, update, delete their passwords in a encrypted format.
+
+## Features
+- Users can set a Master Password for their vault
+- The vault will be encrypted according to the Master Password using Fernet
+- Passwords are saved locally in `vault.enc`
 
 ## Requirements
 - Python 3.x
