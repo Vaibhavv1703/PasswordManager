@@ -140,24 +140,28 @@ def run():
             return
 
     save_vault()
+
+    valid_choices = {'0', '1', '2', '3', '4', '5'}
     while True:
         print_menu()
-        choice = input("Enter your choice: ")
-        if choice == '1':
+        ch = input("Enter your choice: ").strip()
+        if ch not in valid_choices:
+            print("Invalid choice. Please try again.\n")
+            continue
+
+        if ch == '1':
             add_password()
-        elif choice == '2':
+        elif ch == '2':
             view_passwords()
-        elif choice == '3':
+        elif ch == '3':
             delete_password()
-        elif choice == '4':
+        elif ch == '4':
             search_password()
-        elif choice == '5':
+        elif ch == '5':
             update_password()
-        elif choice == '0':
+        elif ch == '0':
             print("Going back to the main menu...\n")
             break
-        else:
-            print("Invalid choice. Please try again.\n")
 
 if __name__ == "__main__":
     run()

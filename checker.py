@@ -80,7 +80,7 @@ def check_password_strength(password):
         return "Weak"
 
 def check():  
-    password = input("\nEnter a password to check: ")
+    password = input("\nEnter a password to check: ").strip()
     strength = check_password_strength(password)
     entropy = calculate_entropy(password)
     cracking_time = estimate_cracking_time(password)
@@ -102,10 +102,10 @@ def run():
     print("=" * 45)
     check()
     while True:
-        ch2 = input("Do you want to check another password? (Y for Yes, N for No): ")
-        if ch2.lower() == 'y':
+        ch2 = input("Do you want to check another password? (Y for Yes, N for No): ").lower()
+        if ch2 == 'y':
             check()
-        elif ch2.lower() == 'n':
+        elif ch2 == 'n':
             print("Going back to the main menu...\n")
             break
         else:
